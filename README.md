@@ -350,6 +350,29 @@ If automatic refresh fails (Google login fully expired), run `notebooklm-mcp-aut
 
 ## Troubleshooting
 
+### `uv tool upgrade` Not Installing Latest Version
+
+**Symptoms:**
+- Running `uv tool upgrade notebooklm-mcp-server` installs an older version (e.g., 0.1.5 instead of 0.1.9)
+- `uv cache clean` doesn't fix the issue
+
+**Why this happens:** `uv tool upgrade` respects version constraints from your original installation. If you initially installed an older version or with a constraint, `upgrade` stays within those bounds by design.
+
+**Fix — Force reinstall:**
+```bash
+uv tool install --force notebooklm-mcp-server
+```
+
+This bypasses any cached constraints and installs the absolute latest version from PyPI.
+
+**Verify:**
+```bash
+uv tool list | grep notebooklm
+# Should show: notebooklm-mcp-server v0.1.9 (or latest)
+```
+
+---
+
 ### Chrome DevTools MCP Not Working (Cursor/Gemini CLI)
 
 If Chrome DevTools MCP shows "no tools, prompts or resources" or fails to start, it's likely due to a known `npx` bug with the puppeteer-core module.
